@@ -29,13 +29,13 @@ class Login(object):
         elif data["method"] == "login":
             del data["method"]
             try:
-                event = self.users.find(data)
-                dic = event[0]
-                if dic:
+                user = self.users.find(data)
+                if len(list(user)):
                     respName = {"status": "success"}
                 else:
                     respName = {"status": "failure", "message":"username or password incorrect"}
             except Exception as e:
+                print(e)
                 respName = {"status": "failure", "message":e}
         else:
             respName = {"status": "failure", "message":"no method specified"}
