@@ -3,7 +3,7 @@ import pymongo
 import falcon
 import hashlib
 
-class Login(object):
+class Register(object):
 
     def __init__(self):
         with open("mongoCredentials.txt", "r") as file:
@@ -15,16 +15,17 @@ class Login(object):
     def on_post(self, req, resp):
         data = json.loads(req.stream.read().decode('utf-8'))
         try:
-            # Hash password before checking
-            data["password"] = hashlib.sha512(data["password"].encode()).hexdigest()
-            user = self.users.find(data)
-            if len(list(user)):
+            total = self.users.count_documents({"email":data["email"]})
+            if total == 0:
+                # Hash password before storing
+                data["password"] = hashlib.sha512(data["password"].encode()).hexdigest()
+                self.users.insert_one(data)
                 respName = {"status": "success"}
             else:
-                respName = {"status": "failure", "message":"username or password incorrect"}
+                respName = {"status": "failure", "message": "User already registered with that email"}
         except Exception as e:
             print(e)
-            respName = {"status": "failure", "message":e}
+            respName = {"status": "failure", "message": e}
 
         resp.body = json.dumps(respName, ensure_ascii=False)
         resp.status = falcon.HTTP_200
