@@ -21,5 +21,5 @@ api.add_route('/register', register)
 # For development only and should be removed for production environments
 # -------------------------------------------------------------------------------
 from refresh import RefreshDevServerResource
-app.add_route('/refreshServer', RefreshDevServerResource())
+api.add_route('/refreshServer', RefreshDevServerResource())
 # -------------------------------------------------------------------------------
