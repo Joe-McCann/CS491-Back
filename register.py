@@ -2,7 +2,7 @@ import json
 import pymongo
 import falcon
 
-class Login(object):
+class Register(object):
 
     def __init__(self):
         with open("mongoCredentials.txt", "r") as file:
@@ -15,13 +15,13 @@ class Login(object):
         data = json.loads(req.stream.read().decode('utf-8'))
 
         try:
-            user = self.users.find(data)
-            if len(list(user)):
+            total = self.users.count_documents({"email":data["email"]})
+            if total == 0:
+                self.users.insert_one(data)
                 respName = {"status": "success"}
             else:
-                respName = {"status": "failure", "message":"username or password incorrect"}
+                respName = {"status": "failure", "message":"user already registered with that email"}
         except Exception as e:
-            print(e)
             respName = {"status": "failure", "message":e}
 
         resp.body = json.dumps(respName, ensure_ascii=False)
