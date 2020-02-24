@@ -1,10 +1,7 @@
 import json
 import pymongo
 import falcon
-<<<<<<< HEAD
-=======
 import hashlib
->>>>>>> 7d3f5fba7605bcb985c156ff2c2d8501a2ed7aab
 
 class Register(object):
 
