@@ -1,6 +1,7 @@
 import json
 import pymongo
 import falcon
+import hashlib
 
 class Login(object):
 
@@ -13,8 +14,9 @@ class Login(object):
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read().decode('utf-8'))
-
         try:
+            # Hash password before checking
+            data["password"] = hashlib.sha512(data["password"].encode()).hexdigest()
             user = self.users.find(data)
             if len(list(user)):
                 respName = {"status": "success"}

@@ -10,8 +10,16 @@ api = application = falcon.API()
 hw = HelloWorld()
 ev = Events()
 log = Login()
-reg = Register()
+register = Register()
 api.add_route('/helloWorld', hw)
 api.add_route('/events', ev)
 api.add_route('/login', log)
-api.add_route('/register', reg)
+api.add_route('/register', register)
+
+
+# -------------------------------------------------------------------------------
+# For development only and should be removed for production environments
+# -------------------------------------------------------------------------------
+from refresh import RefreshDevServerResource
+api.add_route('/refreshServer', RefreshDevServerResource())
+# -------------------------------------------------------------------------------
