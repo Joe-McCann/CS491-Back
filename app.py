@@ -1,18 +1,21 @@
 import falcon
 
 from helloWorld import HelloWorld
-from events import Events
+from createEvent import createEvent
 from login import Login
 from register import Register
+from getEvents import getEvents
 
 api = application = falcon.API()
 
 hw = HelloWorld()
-ev = Events()
+ce = createEvent()
+ge = getEvents()
 log = Login()
 register = Register()
 api.add_route('/helloWorld', hw)
-api.add_route('/events', ev)
+api.add_route('/createEvent', ce)
+api.add_route('/getEvents', ge)
 api.add_route('/login', log)
 api.add_route('/register', register)
 

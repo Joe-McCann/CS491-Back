@@ -13,6 +13,19 @@ class Login(object):
             self.users = self.db["users"]
 
     def on_post(self, req, resp):
+        '''
+        Request format
+        {
+            "email":"some email address string",
+            "password":"password for user"
+        }
+
+        Response format
+        {
+            "status":"success" or "failure"
+            "message":"..." depending on failure reason
+        }
+        '''
         data = json.loads(req.stream.read().decode('utf-8'))
         try:
             # Hash password before checking
