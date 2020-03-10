@@ -27,7 +27,7 @@ class getEvents(object):
         """
         data = json.loads(req.stream.read().decode('utf-8'))
         owner = self.users.find_one({"username":data["username"]})
-        eventsList = {"mine":[], "friends":[]}
+        eventsList = {"mine":[], "friends":[], "public":[]}
         for my_event in owner["events"]["mine"]:
             event = self.events.find_one({"_id":my_event})
             del event["_id"]
@@ -38,6 +38,10 @@ class getEvents(object):
             del event["_id"]
             event["status"] = friend_event["status"]
             eventsList["friends"].append(event)
+        public_events = self.events.find({"type":"public"})
+        for p_event in public_events:
+            del p_event["_id"]
+            eventsList["public"].append(p_event)
         try:
             respName = eventsList
             resp.body = json_util.dumps(respName, ensure_ascii=False)

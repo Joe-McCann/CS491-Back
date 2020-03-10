@@ -25,6 +25,7 @@ class createEvent(object):
             "participants":[{"identifying key":"identifying value"}, ... ]
             "date": yyyy/mm/dd
             "time": hh:mm
+            "type":"public"/"private"
         }
         
         Response
