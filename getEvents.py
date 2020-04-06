@@ -30,17 +30,17 @@ class getEvents(object):
         eventsList = {"mine":[], "friends":[], "public":[]}
         for my_event in owner["events"]["mine"]:
             event = self.events.find_one({"_id":my_event})
-            event["_id"]
+            #event["_id"]
             eventsList["mine"].append(event)
         print(owner["events"]["friends"])
         for friend_event in owner["events"]["friends"]:
             event = self.events.find_one({"_id":friend_event["_id"]})
-            event["_id"]
+            #event["_id"]
             event["status"] = friend_event["status"]
             eventsList["friends"].append(event)
         public_events = self.events.find({"type":"public"})
         for p_event in public_events:
-            p_event["_id"]
+            #p_event["_id"]
             eventsList["public"].append(p_event)
         try:
             respName = eventsList
