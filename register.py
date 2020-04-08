@@ -31,7 +31,7 @@ class Register(object):
         }
         """
         data = json.loads(req.stream.read().decode('utf-8'))
-        data["friends"] = []
+        data["friends"] = {}
         data["events"] = {"mine":[], "friends":[]}
         try:
             total1 = self.users.count_documents({"email":data["email"]})
