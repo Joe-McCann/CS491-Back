@@ -8,6 +8,8 @@ from getEvents import getEvents
 from checkUserExists import CheckUserExists
 from getFriends import getFriends
 from friendRequest import friendRequest
+from updateFriendRequest import updateFriendRequest
+from inviteEvent import inviteEvent
 
 api = application = falcon.API()
 
@@ -19,6 +21,8 @@ cue = CheckUserExists()
 register = Register()
 gf = getFriends()
 fr = friendRequest()
+ufr = updateFriendRequest()
+ie = inviteEvent()
 
 api.add_route('/helloWorld', hw)
 api.add_route('/checkUserExists', cue)
@@ -28,6 +32,8 @@ api.add_route('/login', log)
 api.add_route('/register', register)
 api.add_route('/getFriends', gf)
 api.add_route('/friendRequest', fr)
+api.add_route('/updateFriendRequest', ufr)
+api.add_route('/inviteEvent', ie)
 
 
 # -------------------------------------------------------------------------------
