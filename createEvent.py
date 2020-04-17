@@ -48,7 +48,7 @@ class createEvent(object):
             self.users.update_one({"_id":owner["_id"]}, {"$push":{"events.mine":data["_id"]}})
             for person in people:
                 self.users.update_one({"_id":person["_id"]}, {"$push":{"events.friends":{"_id":data["_id"], "status":"invited"}}})
-            respName = {"status": "success"}
+            respName = data
             resp.body = json_util.dumps(respName, ensure_ascii=False)
         except Exception as e:
             respName = {"status": "failure", "message":e}
