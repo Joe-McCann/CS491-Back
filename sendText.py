@@ -6,7 +6,7 @@ class SendText():
       creds = [x for x in f.readline().split()]
       self.acctSid = creds[0]
       self.token = creds[1]
-      self.messSid = creds[2]
+      self.phoneNumber = creds[2]
     self.client = Client(self.acctSid, self.token)
 
   def sendText(self, content, recipient):
@@ -14,7 +14,7 @@ class SendText():
       message = self.client.messages \
           .create(
               body=content,
-              messaging_service_sid=self.messSid,
+              from_=self.phoneNumber,
               to=recipient
           )
       print("Sent text!")

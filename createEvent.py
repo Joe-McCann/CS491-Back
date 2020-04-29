@@ -43,6 +43,7 @@ class createEvent(object):
                 p = cur[0]
                 people.append({"_id":p["_id"], "firstname":p["firstname"], "lastname":p["lastname"], "username":p["username"], "email":p["email"]})
         data["participants"] = people
+        data["status"] = "on time"
         try:
             self.events.insert_one(data)
             self.users.update_one({"_id":owner["_id"]}, {"$push":{"events.mine":data["_id"]}})
