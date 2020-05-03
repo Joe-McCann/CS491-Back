@@ -12,6 +12,7 @@ from updateFriendRequest import updateFriendRequest
 from inviteEvent import inviteEvent
 from updateEventStatus import updateEventStatus
 from changeEventModifier import ChangeEventModifier
+from searchUsername import SearchUsername
 
 api = application = falcon.API()
 
@@ -27,6 +28,7 @@ ufr = updateFriendRequest()
 ie = inviteEvent()
 ues = updateEventStatus()
 cem = ChangeEventModifier()
+su = SearchUsername()
 
 api.add_route('/helloWorld', hw)
 api.add_route('/checkUserExists', cue)
@@ -40,6 +42,7 @@ api.add_route('/updateFriendRequest', ufr)
 api.add_route('/inviteEvent', ie)
 api.add_route('/updateEventStatus', ues)
 api.add_route('/changeEventModifier', cem)
+api.add_route('/searchUsername', su)
 
 
 # -------------------------------------------------------------------------------
