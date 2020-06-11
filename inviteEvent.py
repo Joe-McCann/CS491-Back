@@ -3,6 +3,7 @@ from bson import json_util
 import pymongo
 import falcon
 from bson import objectid
+from sendText import SendText
 
 class inviteEvent(object):
 
@@ -13,20 +14,14 @@ class inviteEvent(object):
             self.db = self.client["LetsHang"]
             self.events = self.db["Events"]
             self.users = self.db["users"]
+            self.st = SendText()
 
     def on_post(self, req, resp):
         """
         Request
         {
-            "name":"event name",
-            "username":"username", 
-            "firstname":"first name",
-            "lastname":"last name",
-            "location":{"lat":latitude number, "lng": longitude number}
-            "participants":[{"identifying key":"identifying value"}, ... ]
-            "date": yyyy/mm/dd
-            "time": hh:mm
-            "type":"public"/"private"
+            "oid": "5ee0690ef7687bc5bb720a79", #example here
+            "users":[{identifying info}, ... ]
         }
         
         Response
@@ -39,8 +34,12 @@ class inviteEvent(object):
 
         for identifyingInfo in data["users"]:
             user = self.users.find_one(identifyingInfo)
-            self.events.update({"_id":eid}, {"$addToSet":{"participants":{key:user[key] for key in ["_id","firstname","lastname","username","email"]}}})
-            self.users.update({"_id":user["_id"]}, {"$addToSet":{"events.friends":{"_id":eid, "status":"invited"}}})
+            if user == None:
+                if "phone" in identifyingInfo:
+                    self.st.sendText("You have been invited to an event on Let's Hang, visit the app to check it out!", identifyingInfo["phone"])
+            else:
+                self.events.update({"_id":eid}, {"$addToSet":{"participants":{key:user[key] for key in ["_id","firstname","lastname","username","email"]}}})
+                self.users.update({"_id":user["_id"]}, {"$addToSet":{"events.friends":{"_id":eid, "status":"invited"}}})
 
         try:
             respName = {"status":"success"}

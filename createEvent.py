@@ -2,6 +2,7 @@ import json
 from bson import json_util
 import pymongo
 import falcon
+from sendText import SendText
 
 class createEvent(object):
 
@@ -12,6 +13,7 @@ class createEvent(object):
             self.db = self.client["LetsHang"]
             self.events = self.db["Events"]
             self.users = self.db["users"]
+            self.st = SendText()
 
     def on_post(self, req, resp):
         """
@@ -42,6 +44,9 @@ class createEvent(object):
             if len(cur) != 0:
                 p = cur[0]
                 people.append({"_id":p["_id"], "firstname":p["firstname"], "lastname":p["lastname"], "username":p["username"], "email":p["email"]})
+            else:
+                if "phone" in person:
+                    self.st.sendText("You have been invited to an event on Let's Hang, visit the app to check it out!", person["phone"])
         data["participants"] = people
         data["status"] = "on time"
         try:
